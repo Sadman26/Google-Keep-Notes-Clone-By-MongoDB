@@ -44,6 +44,16 @@ def speak(text):
 #Login
 @app.route('/',methods=['GET','POST'])
 def login():
+    if request.method=='POST':
+        email=request.form['email']
+        password=request.form['password']
+        session['user']=email
+        userx=loginx.find_one({'email':email,'password':password})
+        if userx:
+            return redirect(url_for('create'))
+        else:
+            flash('Invalid Username or Password')
+            return redirect(url_for('login'))
     return render_template('login.html')
 #Signup
 @app.route('/signup',methods=['GET','POST'])
@@ -66,5 +76,23 @@ def index():
             speak('User Already Exists')
             return render_template('signup.html')
     return render_template('signup.html')
-
+#Note   
+@app.route('/add',methods=['GET','POST'])
+def create():
+    if request.method=='POST':
+        title=request.form['title']
+        text=request.form['text']
+       #current date and time
+        now = datetime.now()
+        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+        z={
+            'title':title,
+            "text":text,
+            "time":dt_string
+        }
+        name=session['user']
+        name2=name.replace(".","")
+        db.child('KEEP').child(name2).child('notes').push(z)
+        return redirect(url_for('notes'))
+    return render_template('index.html')
 app.run(debug=True)
