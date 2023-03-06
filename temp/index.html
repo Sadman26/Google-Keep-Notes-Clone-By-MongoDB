@@ -53,16 +53,16 @@
   </div>
   <center>
     <div class="containerx">
-{% for p in data %}
+{% for i in result%}
   <div class="column">
     <div class="card">
       <i class="fa-solid fa-face-grin-beam" id="emoji"></i>
-      <h1>{{p.val().title}}</h1>
-      <h4>{{p.val().text}}</h2>
-      <h6>{{p.val().time}}</h4>   
-      <a href="/edit/{{p.key()}}" class="btn btn-primary"  ><i class="fa-solid fa-pencil"></i></a>
+      <h1>{{i.title}}</h1>
+      <h4>{{i.text}}</h2>
+      <h6>{{i.time}}</h4>   
+      <a href="/edit/{{i._id}}" class="btn btn-primary"  ><i class="fa-solid fa-pencil"></i></a>
       <br>
-       <a href="/delete/{{p.key()}}" class="btn btn-danger" ><i class="fa-solid fa-eraser"></i></a>
+       <a href="/delete/{{i._id}}" class="btn btn-danger" ><i class="fa-solid fa-eraser"></i></a>
     </div>
   </div>
 {% endfor %}

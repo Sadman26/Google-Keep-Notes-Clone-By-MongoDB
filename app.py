@@ -50,7 +50,7 @@ def login():
         session['user']=email
         userx=loginx.find_one({'email':email,'password':password})
         if userx:
-            return redirect(url_for('create'))
+            return redirect(url_for('notes'))
         else:
             flash('Invalid Username or Password')
             return redirect(url_for('login'))
@@ -76,6 +76,12 @@ def index():
             speak('User Already Exists')
             return render_template('signup.html')
     return render_template('signup.html')
+#Notes
+@app.route('/notes')
+def notes():
+    name=session['user']
+    persons=list(db.find({'user':name}))
+    return render_template('index.html',result=persons)
 #Note   
 @app.route('/add',methods=['GET','POST'])
 def create():
@@ -84,15 +90,20 @@ def create():
         text=request.form['text']
        #current date and time
         now = datetime.now()
+        name=session['user']
         dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
         z={
             'title':title,
             "text":text,
-            "time":dt_string
+            "time":dt_string,
+            "user":name
         }
-        name=session['user']
-        name2=name.replace(".","")
-        db.child('KEEP').child(name2).child('notes').push(z)
+        res=notex.insert_one(z)
+        idx=res.inserted_id
+        notex.update_one(
+            {'user':name},
+            {'$push':{'notex':idx}}
+        )
         return redirect(url_for('notes'))
     return render_template('index.html')
 app.run(debug=True)
