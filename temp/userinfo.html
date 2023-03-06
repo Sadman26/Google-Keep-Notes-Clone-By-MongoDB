@@ -21,9 +21,9 @@
           <a class="nav-link"  href="{{url_for('notes')}}"><i class="fa-solid fa-house"></i> Home</a>
           <a class="nav-link active" aria-current="page" href="{{url_for('userinfo')}}"><i class="fa-solid fa-user-pen"></i> UserInfo</a>
           <a class="nav-link " href="{{url_for('trash')}}"><i class="fa-solid fa-trash-can"></i>   Trash</a>
-          <a class="nav-link "  href="{{url_for('remainders')}}"><i class="fa-solid fa-list-check"></i> My Tasks</a>
-          <a class="nav-link "  href="{{url_for('qrcodee')}}"><i class="fa-solid fa-qrcode"></i>QR CODE </a>
-          <a class="nav-link" href="{{url_for('logout')}}"><i class="fa-solid fa-arrow-right-from-bracket"></i> LogOut</a> 
+          <a class="nav-link "  href="#"><i class="fa-solid fa-list-check"></i> My Tasks</a>
+          <a class="nav-link "  href="#"><i class="fa-solid fa-qrcode"></i>QR CODE </a>
+          <a class="nav-link" href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> LogOut</a> 
         </div>
       </div>
     </div>
@@ -35,29 +35,29 @@
      </h1>
   </center>
   <br>
-  {% for p in data %}
+  {% for p in result %}
   <div class="userinfo">
-    <h1><i class="fa-solid fa-user" ></i>{{p.val().name}}</h1>
+    <h1><i class="fa-solid fa-user" ></i>{{p.name}}</h1>
     <h2>
-      <ion-icon name="call-outline" id="phone"></ion-icon>Phone: {{p.val().phone}}
+      <ion-icon name="call-outline" id="phone"></ion-icon>Phone: {{p.phone}}
     </h2>
     <h2>
-      <ion-icon name="key-outline" id="pass"></ion-icon>Pass: {{p.val().password}}
+      <ion-icon name="key-outline" id="pass"></ion-icon>Pass: {{p.password}}
     </h2>
-    <h2><ion-icon name="at-outline" id="email"></ion-icon>Email: {{p.val().email}}</h2>
+    <h2><ion-icon name="at-outline" id="email"></ion-icon>Email: {{p.email}}</h2>
     <br>
-    <a href="{{url_for('userinfo_edit')}}">
+    <a href="#">
       <button class="btn btn-primary" type="submit">UPDATE</button>
     </a>
     {% endfor %}
   </div>
   <div id="wrapper">
   <div class="icon-bar">
-    <a href="{{url_for('youtube')}}" class="youtube"><i class="fa-brands fa-youtube"></i></a>
-    <a href="{{url_for('wiki')}}" class="wikipedia"><i class="fa-brands fa-wikipedia-w"></i></a>
-    <a href="{{url_for('weathers')}}" class="weather"><i class="fa-solid fa-cloud-sun"></i></a>
-    <a href="{{url_for('password')}}" class="password"><i class="fa-solid fa-key"></i></a>
-    <a href="{{url_for('about')}}" class="about"><i class="fa-solid fa-circle-question"></i></a>
+    <a href="#" class="youtube"><i class="fa-brands fa-youtube"></i></a>
+    <a href="#" class="wikipedia"><i class="fa-brands fa-wikipedia-w"></i></a>
+    <a href="#" class="weather"><i class="fa-solid fa-cloud-sun"></i></a>
+    <a href="#" class="password"><i class="fa-solid fa-key"></i></a>
+    <a href="#" class="about"><i class="fa-solid fa-circle-question"></i></a>
   </div>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

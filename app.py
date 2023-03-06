@@ -152,4 +152,10 @@ def restore(id):
 def delete_trash(id):
     trashx.delete_one({'_id':ObjectId(id)})
     return redirect(url_for('trash'))
+#User Info
+@app.route('/userinfo')
+def userinfo():
+    xyz=session['user']
+    persons=list(loginx.find({"email":xyz}))
+    return render_template('userinfo.html',result=persons)
 app.run(debug=True)
