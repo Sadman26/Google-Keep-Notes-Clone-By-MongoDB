@@ -141,4 +141,15 @@ def trash():
     xyz=session['user']
     persons=list(trashx.find({"user":xyz}))
     return render_template('trash.html',result=persons)
+#Restore Trash
+@app.route('/restore/<id>',methods=['GET','POST'])
+def restore(id):
+    notex.insert_one(trashx.find_one({'_id':ObjectId(id)}))
+    trashx.delete_one({'_id':ObjectId(id)})
+    return redirect(url_for('notes'))
+#Delete trash
+@app.route('/delete_trash/<id>',methods=['GET','POST'])
+def delete_trash(id):
+    trashx.delete_one({'_id':ObjectId(id)})
+    return redirect(url_for('trash'))
 app.run(debug=True)
