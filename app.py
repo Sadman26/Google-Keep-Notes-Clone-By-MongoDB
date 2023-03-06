@@ -33,3 +33,38 @@ notex=db['note']
 reminder=db['reminder']
 app = Flask(__name__,template_folder='temp')
 app.secret_key='secret'
+#speak
+def speak(text):
+    engine = pyttsx3.init()
+    engine.setProperty("rate", 188)
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice', voices[1].id)
+    engine.say(text)
+    engine.runAndWait()
+#Login
+@app.route('/',methods=['GET','POST'])
+def login():
+    return render_template('login.html')
+#Signup
+@app.route('/signup',methods=['GET','POST'])
+def index():
+    if request.method=='POST':
+        email=request.form['email']
+        namex=request.form['name']
+        phone=request.form['phone']
+        password=request.form['password']
+        session['user']=email
+        name=session['user']
+        name2=name.replace(".","")
+        name3=session['user'].split('.')[0]
+        try:
+            zx={'name':namex,'phone':phone,'email':email,'password':password}
+            loginx.insert_one(zx)
+            return redirect(url_for('login'))
+        except:
+            flash('User Already Exists')
+            speak('User Already Exists')
+            return render_template('signup.html')
+    return render_template('signup.html')
+
+app.run(debug=True)
