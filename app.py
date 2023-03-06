@@ -128,4 +128,9 @@ def update(id):
     else:
         person=notex.find_one({'_id':ObjectId(id)})
         return render_template('EDIT.html',result=person)
+#Delete
+@app.route('/delete/<id>')
+def delete(id):
+    notex.delete_one({'_id':ObjectId(id)})
+    return redirect(url_for('notes'))
 app.run(debug=True)
