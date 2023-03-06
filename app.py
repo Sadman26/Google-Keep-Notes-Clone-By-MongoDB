@@ -31,6 +31,7 @@ client=MongoClient('localhost',27017)
 db=client['keep']
 loginx=db['login']
 notex=db['note']
+trashx=db['trash']
 reminder=db['reminder']
 app = Flask(__name__,template_folder='temp')
 app.secret_key='secret'
@@ -131,6 +132,13 @@ def update(id):
 #Delete
 @app.route('/delete/<id>')
 def delete(id):
+    trashx.insert_one(notex.find_one({'_id':ObjectId(id)}))
     notex.delete_one({'_id':ObjectId(id)})
     return redirect(url_for('notes'))
+#Trash
+@app.route('/trash')
+def trash():
+    xyz=session['user']
+    persons=list(trashx.find({"user":xyz}))
+    return render_template('trash.html',result=persons)
 app.run(debug=True)
