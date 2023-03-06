@@ -79,8 +79,8 @@ def index():
 #Notes
 @app.route('/notes')
 def notes():
-    name=session['user']
-    persons=list(db.find({'user':name}))
+    xyz=session['user']
+    persons=list(notex.find({"user":xyz}))
     return render_template('index.html',result=persons)
 #Note   
 @app.route('/add',methods=['GET','POST'])
