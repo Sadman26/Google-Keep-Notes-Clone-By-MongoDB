@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 import cv2
 from flask import *
 from twilio.rest import Client
@@ -76,13 +77,7 @@ def index():
             speak('User Already Exists')
             return render_template('signup.html')
     return render_template('signup.html')
-#Notes
-@app.route('/notes')
-def notes():
-    xyz=session['user']
-    persons=list(notex.find({"user":xyz}))
-    return render_template('index.html',result=persons)
-#Note   
+#Creating Note   
 @app.route('/add',methods=['GET','POST'])
 def create():
     if request.method=='POST':
@@ -106,4 +101,31 @@ def create():
         )
         return redirect(url_for('notes'))
     return render_template('index.html')
+#Notes
+@app.route('/notes')
+def notes():
+    xyz=session['user']
+    persons=list(notex.find({"user":xyz}))
+    return render_template('index.html',result=persons)
+#Edit
+@app.route('/edit/<id>',methods=['GET','POST'])
+def update(id):
+    if request.method=='POST':
+        title=request.form['title']
+        text=request.form['text']
+        name=session['user']
+        now = datetime.now()
+        current_time =now.strftime("%d/%m/%Y %H:%M:%S")
+        xyz="Edited in "+current_time
+        z={
+            "title":title,
+            "text":text,
+            "time":xyz,
+            "user":name
+        }
+        notex.update_one({'_id':ObjectId(id)},{'$set':z})
+        return redirect(url_for('notes'))
+    else:
+        person=notex.find_one({'_id':ObjectId(id)})
+        return render_template('EDIT.html',result=person)
 app.run(debug=True)
