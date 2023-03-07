@@ -371,4 +371,48 @@ def about():
 def logout():
     session.pop('user',None)
     return render_template('login.html')
+#qrcode making
+def test(text,name):
+    for text in text:
+        email=text['email']
+        password=text['password']
+        newData=email+" "+password
+        img =qrcode.make(newData)
+        type(img)
+        img.save(name+'.png')
+#Scan Qrcode
+@app.route('/qrcodescan')
+def qrcodescan():
+    cap=cv2.VideoCapture(0)
+    detector=cv2.QRCodeDetector()
+    while True:
+        _,img=cap.read()
+        data,one,_=detector.detectAndDecode(img)
+        if data:
+            a=data
+            dataz1=a.split(' ')[0]
+            dataz2=a.split(' ')[1]
+            list={"email":dataz1,"password":dataz2}
+            return render_template('qrlogin.html',data=list)
+        cv2.imshow(' qrocode img',img)
+        if cv2.waitKey(1)==ord('q'):
+            break
+        cv2.destroyAllWindows()
+    return render_template('qrlogin.html')
+#Qrcode
+@app.route('/qrcode')
+def qrcodee():
+    name=session['user']
+    picx='E:\Google-Keep-Notes-Clone-By-MongoDB\ '+name+'.png'
+    return render_template('qrcode.html',pic=picx)
+#Qrcode-Download
+@app.route('/qrcode-download',methods=['GET','POST'])
+def qrcodee1():
+    if request.method=='POST':
+        name=session['user']
+        res=list(loginx.find({"email":name}))
+        test(res,name)
+        new='E:\ '+name+'.png'
+        return redirect(url_for('qrcodee'))
+    return render_template('qrcode.html')
 app.run(debug=True)
