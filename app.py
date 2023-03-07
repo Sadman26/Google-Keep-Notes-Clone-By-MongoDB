@@ -272,5 +272,26 @@ def password_maker():
             passw="Your Password: "+password
         return render_template('password.html',password=passw)
     return redirect(url_for('password'))
-
+#yt Download Function
+def ytdown(link):
+    url = YouTube(link)
+    video = url.streams.get_highest_resolution()
+    path_to_download_folder = str(os.path.join(Path.home(), "E:\Google-Keep-Notes-Clone-By-MongoDB"))
+    video.download(path_to_download_folder)
+    flash('Downloaded Successfully')
+#Youtube page
+@app.route('/youtube')
+def youtube():
+    return render_template('youtube.html')
+#Youtube Download Page
+@app.route('/youtube-download',methods=['POST'])
+def youtube_download():
+    if request.method == 'POST':
+        link = request.form['link']
+        try:
+            threading.Thread(target=ytdown(link)).start()
+        except:
+            flash('Download Failed')
+        return render_template('youtube.html')
+    return redirect(url_for('youtube'))
 app.run(debug=True)
