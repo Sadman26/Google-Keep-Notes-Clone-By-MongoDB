@@ -366,4 +366,9 @@ def wikiz():
 @app.route('/About')
 def about():
     return render_template('about.html')
+#Logout
+@app.route('/login')
+def logout():
+    session.pop('user',None)
+    return render_template('login.html')
 app.run(debug=True)
