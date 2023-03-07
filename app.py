@@ -252,4 +252,9 @@ def edit_remainder(id):
     else:
         todo=reminderx.find_one({'_id':ObjectId(id)})
         return render_template('edit_remainder.html',p=todo)
+#Delete Task
+@app.route('/delete_remainder/<id>',methods=['GET','POST'])
+def delete_remainder(id):
+    reminderx.delete_one({'_id':ObjectId(id)})
+    return redirect(url_for('remainders'))
 app.run(debug=True)
