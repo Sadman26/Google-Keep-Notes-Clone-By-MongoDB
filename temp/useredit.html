@@ -3,7 +3,7 @@
 <head>
   <script src="https://kit.fontawesome.com/91b44b9c3e.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/userinfo.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/useredit.css') }}">
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,34 +30,34 @@
   </nav>
   <center>
   </br>
-    <h1 id="txtx">
-      <ion-icon name="person-circle-outline"></ion-icon> User Info 
+    <h1>
+      <ion-icon name="person-circle-outline"></ion-icon><br> User Info 
      </h1>
   </center>
   <br>
-  {% for p in result %}
+  {%block content%}
   <div class="userinfo">
-    <h1><i class="fa-solid fa-user" ></i>{{p.name}}</h1>
+    <form action="/userEdit/{{result._id}}"  method="post">
+    <h1><i class="fa-solid fa-user" ></i>   <input type="text" name="name" id="name" value="{{result.name}}"></h1>
     <h2>
-      <ion-icon name="call-outline" id="phone"></ion-icon>Phone: {{p.phone}}
+      <ion-icon name="call-outline" id="phone"></ion-icon><input type="text" name="phone" id="phone" value="{{result.phone}}">
     </h2>
     <h2>
-      <ion-icon name="key-outline" id="pass"></ion-icon>Pass: {{p.password}}
+      <ion-icon name="key-outline" id="pass"></ion-icon>Pass: {{result.password}}
     </h2>
-    <h2><ion-icon name="at-outline" id="email"></ion-icon>Email: {{p.email}}</h2>
+    <h2><ion-icon name="at-outline" id="email"></ion-icon>Email: {{result.email}}</h2>
     <br>
-    <a href="/userEdit/{{p._id}}">
-      <button class="btn btn-primary" type="submit">UPDATE</button>
-    </a>
-    {% endfor %}
+    <button class="btn btn-success" type="submit">SAVE</button>
+    {% endblock %}
+</form>
   </div>
   <div id="wrapper">
   <div class="icon-bar">
-    <a href="#" class="youtube"><i class="fa-brands fa-youtube"></i></a>
-    <a href="#" class="wikipedia"><i class="fa-brands fa-wikipedia-w"></i></a>
-    <a href="#" class="weather"><i class="fa-solid fa-cloud-sun"></i></a>
-    <a href="#" class="password"><i class="fa-solid fa-key"></i></a>
-    <a href="#" class="about"><i class="fa-solid fa-circle-question"></i></a>
+    <a href="{{url_for('youtube')}}" class="youtube"><i class="fa-brands fa-youtube"></i></a>
+    <a href="{{url_for('wiki')}}" class="wikipedia"><i class="fa-brands fa-wikipedia-w"></i></a>
+    <a href="{{url_for('weathers')}}" class="weather"><i class="fa-solid fa-cloud-sun"></i></a>
+    <a href="{{url_for('password')}}" class="password"><i class="fa-solid fa-key"></i></a>
+    <a href="{{url_for('about')}}" class="about"><i class="fa-solid fa-circle-question"></i></a>
   </div>
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

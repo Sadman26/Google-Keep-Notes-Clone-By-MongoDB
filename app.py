@@ -158,4 +158,18 @@ def userinfo():
     xyz=session['user']
     persons=list(loginx.find({"email":xyz}))
     return render_template('userinfo.html',result=persons)
+#Edit User Info page
+@app.route('/userEdit/<id>',methods=['POST'])
+def userEdit(id):
+    if request.method=='POST':
+        namex=request.form['name']
+        phone=request.form['phone']
+        z={
+            "name":namex,
+            "phone":phone
+        }
+        name=session['user']
+        loginx.update_one({'_id':ObjectId(id)},{'$set':z})
+        return redirect(url_for('userinfo'))
+    return render_template('userinfo.html')
 app.run(debug=True)
