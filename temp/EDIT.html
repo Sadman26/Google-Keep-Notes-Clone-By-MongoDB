@@ -42,11 +42,11 @@
    </h1>
   </center>
   <div class="icon-bar">
-    <a href="#" class="youtube"><i class="fa-brands fa-youtube"></i></a>
-    <a href="#" class="wikipedia"><i class="fa-brands fa-wikipedia-w"></i></a>
-    <a href="#" class="weather"><i class="fa-solid fa-cloud-sun"></i></a>
-    <a href="#" class="password"><i class="fa-solid fa-key"></i></a>
-    <a href="#" class="about"><i class="fa-solid fa-circle-question"></i></a>
+    <a href="{{url_for('youtube')}}" class="youtube"><i class="fa-brands fa-youtube"></i></a>
+    <a href="{{url_for('wiki')}}" class="wikipedia"><i class="fa-brands fa-wikipedia-w"></i></a>
+    <a href="{{url_for('weathers')}}" class="weather"><i class="fa-solid fa-cloud-sun"></i></a>
+    <a href="{{url_for('password')}}" class="password"><i class="fa-solid fa-key"></i></a>
+    <a href="{{url_for('about')}}" class="about"><i class="fa-solid fa-circle-question"></i></a>
   </div>
   {%block content%}
   <div id="wrapper">
