@@ -333,4 +333,33 @@ def weather():
         b="it is "+str(tempx)+"  °C"
         icon = weather_data.json()['weather'][0]['icon']+".png"
         return render_template('weather.html',weather=a,temp=b,icon=icon)
+#wikipedia image search
+def get_wiki_image(search_term):
+    try:
+        result = wikipedia.search(search_term, results = 1)
+        wikipedia.set_lang('en')
+        wkpage = wikipedia.WikipediaPage(title = result[0])
+        title = wkpage.title
+        response  = requests.get(WIKI_REQUEST+title)
+        json_data = json.loads(response.text)
+        img_link = list(json_data['query']['pages'].values())[0]['original']['source']
+        return img_link        
+    except:
+        return 0
+#wikipedia
+@app.route('/wiki')
+def wiki():
+    return render_template('wikipedia.html')
+#wikipedia search
+@app.route('/wikipedia',methods=['POST'])
+def wikiz():
+    if request.method == 'POST':
+        topic=request.form['data']
+        try:
+            result = wikipedia.summary(topic, sentences=2)
+            pic=get_wiki_image(topic)
+            return render_template('wikipedia.html',data=result,pic=pic)
+        except:
+            flash('Sorry. I couldn\'t find the Result.Please Try Again')
+            return render_template('wikipedia.html')
 app.run(debug=True)
