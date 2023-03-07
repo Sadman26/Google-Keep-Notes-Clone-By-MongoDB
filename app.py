@@ -414,5 +414,5 @@ def qrcodee1():
         test(res,name)
         new='E:\ '+name+'.png'
         return redirect(url_for('qrcodee'))
-    return render_template('qrcode.html')
+    return render_template('qrcode.html',pic=new)
 app.run(debug=True)
