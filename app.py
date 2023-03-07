@@ -272,4 +272,5 @@ def password_maker():
             passw="Your Password: "+password
         return render_template('password.html',password=passw)
     return redirect(url_for('password'))
+
 app.run(debug=True)
