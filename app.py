@@ -235,4 +235,21 @@ def remainders():
     name=session['user']
     persons=list(reminderx.find({"user":name}))
     return render_template('remainder.html',result=persons)
+#Edit Task
+@app.route('/edit_remainder/<id>',methods=['GET','POST'])
+def edit_remainder(id):
+    if request.method=='POST':
+        title=request.form['title']
+        namee=session['user']
+        datetime=request.form['datetime']
+        z={
+            'title':title,
+            "datetime":datetime,
+            "user":namee
+        }
+        reminderx.update_one({'_id':ObjectId(id)},{'$set':z})
+        return redirect(url_for('remainders'))
+    else:
+        todo=reminderx.find_one({'_id':ObjectId(id)})
+        return render_template('edit_remainder.html',result=todo)
 app.run(debug=True)
