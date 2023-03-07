@@ -257,4 +257,19 @@ def edit_remainder(id):
 def delete_remainder(id):
     reminderx.delete_one({'_id':ObjectId(id)})
     return redirect(url_for('remainders'))
+@app.route('/password')
+def password():
+    return render_template('password.html')
+#passwords maker
+@app.route('/password_maker',methods=['POST'])
+def password_maker():
+    if request.method=='POST':
+        length=request.form['length']
+        length=int(length)
+        password=''
+        for i in range(length):
+            password+=random.choice(string.ascii_letters+string.digits+string.punctuation)
+            passw="Your Password: "+password
+        return render_template('password.html',password=passw)
+    return redirect(url_for('password'))
 app.run(debug=True)
