@@ -172,4 +172,12 @@ def userEdit(id):
         loginx.update_one({'_id':ObjectId(id)},{'$set':z})
         return redirect(url_for('userinfo'))
     return render_template('userinfo.html')
+#Task
+def time_set(time,msg,name):
+    scheduler = sched.scheduler(time_module.time, time_module.sleep)
+    t = time_module.strptime(time, '%Y-%m-%d %H:%M')
+    t = time_module.mktime(t)
+    scheduler_e = scheduler.enterabs(t, 1,notification,argument=(msg ,))
+    scheduler_e = scheduler.enterabs(t, 1,send_whatsapp,argument=(time,msg,name ,))
+    scheduler.run()
 app.run(debug=True)
