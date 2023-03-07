@@ -294,4 +294,43 @@ def youtube_download():
             flash('Download Failed')
         return render_template('youtube.html')
     return redirect(url_for('youtube'))
+#Weather Page
+@app.route('/weathers')
+def weathers():
+    return render_template('weather.html')
+#Weather_Recognition
+@app.route('/speechrecognize')
+def speech_recognizer():
+    namee=session['user']
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        speak("Hello "+namee+" which city's Weather Do you Want to Know ?")
+        audio = r.listen(source)
+        try:
+            text = r.recognize_google(audio)
+            weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={text}&units=imperial&APPID={api_key}")
+            weather = weather_data.json()['weather'][0]['main']
+            temp = round(weather_data.json()['main']['temp'])
+            tempx =round((temp-32)*5/9)
+            speak(f"The weather is {weather} and the temperature is {tempx} degree Celsius in {text}")
+            a="Weather in "+text+" is "+weather
+            b="it is "+str(tempx)+"  °C"
+            icon = weather_data.json()['weather'][0]['icon']+".png"
+            return render_template('weather.html',weather=a,temp=b,icon=icon)
+        except:
+            speak("Sorry"+namee+" I couldn't recognize your voice. But Don't worry You can still ask me in manual mode ")
+            return render_template('weather.html')
+#get weather
+@app.route('/weather',methods=['POST'])
+def weather():
+    if request.method == 'POST':
+        city=request.form['city']
+        weather_data = requests.get(f"https://api.openweathermap.org/data/2.5/weather?q={city}&units=imperial&APPID={api_key}")
+        weather = weather_data.json()['weather'][0]['main']
+        temp = round(weather_data.json()['main']['temp'])
+        tempx =round((temp-32)*5/9)
+        a="Weather in "+city+" is "+weather
+        b="it is "+str(tempx)+"  °C"
+        icon = weather_data.json()['weather'][0]['icon']+".png"
+        return render_template('weather.html',weather=a,temp=b,icon=icon)
 app.run(debug=True)
