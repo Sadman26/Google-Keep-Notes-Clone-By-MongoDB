@@ -251,5 +251,5 @@ def edit_remainder(id):
         return redirect(url_for('remainders'))
     else:
         todo=reminderx.find_one({'_id':ObjectId(id)})
-        return render_template('edit_remainder.html',result=todo)
+        return render_template('edit_remainder.html',p=todo)
 app.run(debug=True)

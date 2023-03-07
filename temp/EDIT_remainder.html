@@ -1,4 +1,4 @@
-{% for p in data %}
+{%block content%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,8 +23,8 @@
           <a class="nav-link" href="{{url_for('userinfo')}}"><i class="fa-solid fa-user-pen"></i> UserInfo</a>
           <a class="nav-link " href="{{url_for('trash')}}" ><i class="fa-solid fa-trash-can"></i>   Trash</a>
           <a class="nav-link active" aria-current="page" href="{{url_for('remainders')}}"><i class="fa-solid fa-list-check"></i> My Tasks</a>
-          <a class="nav-link "  href="{{url_for('qrcodee')}}"><i class="fa-solid fa-qrcode"></i>QR CODE </a>
-          <a class="nav-link" href="{{url_for('logout')}}"><i class="fa-solid fa-arrow-right-from-bracket"></i> LogOut</a> 
+          <a class="nav-link "  href="#"><i class="fa-solid fa-qrcode"></i>QR CODE </a>
+          <a class="nav-link" href="#"><i class="fa-solid fa-arrow-right-from-bracket"></i> LogOut</a> 
         </div>
       </div>
     </div>
@@ -34,21 +34,21 @@
     <h1><i class="fa-solid fa-house-laptop"></i>My Tasks</h1>
   </center>
   <div id="wrapper">
-    <form id="paper" method="post" action="/edit_remainder/{{p.key()}}">
-      <div id="margin">Title: <input id="title" type="text" name="title" value="{{p.val().title}}"></div>
+    <form id="paper" method="post" action="/edit_remainder/{{p._id}}">
+      <div id="margin">Title: <input id="title" type="text" name="title" value="{{p.title}}"></div>
       Date   :
-      <input type="datetime-local" name="datetime" id="datetime" value="{{p.val().datetime}}">
+      <input type="datetime-local" name="datetime" id="datetime" value="{{p.datetime}}">
       <br>
       <input id="button" type="submit" value="Save">
     </form>
   
   </div>
   <div class="icon-bar">
-    <a href="{{url_for('youtube')}}" class="youtube"><i class="fa-brands fa-youtube"></i></a>
-    <a href="{{url_for('wiki')}}" class="wikipedia"><i class="fa-brands fa-wikipedia-w"></i></a>
-    <a href="{{url_for('weathers')}}" class="weather"><i class="fa-solid fa-cloud-sun"></i></a>
-    <a href="{{url_for('password')}}" class="password"><i class="fa-solid fa-key"></i></a>
-    <a href="{{url_for('about')}}" class="about"><i class="fa-solid fa-circle-question"></i></a>
+    <a href="#" class="youtube"><i class="fa-brands fa-youtube"></i></a>
+    <a href="#" class="wikipedia"><i class="fa-brands fa-wikipedia-w"></i></a>
+    <a href="#" class="weather"><i class="fa-solid fa-cloud-sun"></i></a>
+    <a href="#" class="password"><i class="fa-solid fa-key"></i></a>
+    <a href="#" class="about"><i class="fa-solid fa-circle-question"></i></a>
   </div>
   <center>
     <table class="styled-table">
@@ -63,15 +63,15 @@
     </thead>
     <tbody>
         <tr class="active-row">
-     <td scope="row">{{loop.index}}</td>  
-            <td>{{p.val().title}}</td>
-            <td>{{p.val().datetime}}</td>    
+     <td scope="row"></td>  
+            <td>{{p.title}}</td>
+            <td>{{p.datetime}}</td>    
             <td>
-             <a href="/edit_remainder/{{p.key()}}" class="button-27">✏️</a>
-             <a href="/delete_remainder/{{p.key()}}" class="button-27" >❌</a>
+             <a href="/edit_remainder/{{p._id}}" class="button-27">✏️</a>
+             <a href="/delete_remainder/{{p._id}}" class="button-27" >❌</a>
             </td>
         </tr>
-        {% endfor %}
+        {%endblock%}
         <!-- and so on... -->
     </tbody>
 </table>
