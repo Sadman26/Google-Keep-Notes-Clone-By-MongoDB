@@ -32,7 +32,7 @@ db=client['keep']
 loginx=db['login']
 notex=db['note']
 trashx=db['trash']
-reminder=db['reminder']
+reminderx=db['reminder']
 app = Flask(__name__,template_folder='temp')
 app.secret_key='secret'
 #speak
@@ -172,6 +172,32 @@ def userEdit(id):
         loginx.update_one({'_id':ObjectId(id)},{'$set':z})
         return redirect(url_for('userinfo'))
     return render_template('userinfo.html')
+#plyer notification 
+def notification(msg):
+    title="Task"
+    plyer.notification.notify(title=title,message=msg,timeout=3)
+    speak("You have a task to do Title :"+msg)
+#convert time
+def convert_time(time):
+    time = time.split("T")
+    time = time[0]+" "+time[1]
+    return time
+#whatsapp message
+def send_whatsapp(time,msg,name):
+    name=session['user']
+    account_sid = 'ACd78722a228d0c57a16011c23a0900cdb'
+    auth_token = '252e8647218849b525f85d4d8219a3b6'
+    num=""
+    namee=""
+    persons=list(loginx.find({"email":name}))
+    for person in persons:
+        num=person['phone']
+        namee=person['name']
+    client = Client(account_sid, auth_token)
+    from_whatsapp_number='whatsapp:+14155238886'
+    to_whatsapp_number='whatsapp:+88'+num
+    message="Hello "+namee+" ❤\n"+"You have a task to do at "+time+"\nTitle:"+msg
+    client.messages.create(body=message,from_=from_whatsapp_number,to=to_whatsapp_number)
 #Task
 def time_set(time,msg,name):
     scheduler = sched.scheduler(time_module.time, time_module.sleep)
@@ -180,4 +206,33 @@ def time_set(time,msg,name):
     scheduler_e = scheduler.enterabs(t, 1,notification,argument=(msg ,))
     scheduler_e = scheduler.enterabs(t, 1,send_whatsapp,argument=(time,msg,name ,))
     scheduler.run()
+@app.route('/remainder',methods=['GET','POST'])
+def remainder():
+    if request.method=='POST':
+        title=request.form['title']
+        datetime=request.form['datetime']
+        sad_date=datetime.replace("T"," ")
+        name=session['user']
+        z={
+            'title':title,
+            "datetime":sad_date,
+            "user":name
+        }
+        try:
+            res=reminderx.insert_one(z)
+            idx=res.inserted_id
+            reminderx.update_one(
+            {'user':name},
+            {'$push':{'reminderx':idx}}
+            )
+            return redirect(url_for('remainders'))
+        finally:
+            threading.Thread(target=time_set(sad_date,title,name)).start()
+    return render_template('remainder.html')
+#Task
+@app.route('/remainders')
+def remainders():
+    name=session['user']
+    persons=list(reminderx.find({"user":name}))
+    return render_template('remainder.html',result=persons)
 app.run(debug=True)
