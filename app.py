@@ -362,4 +362,8 @@ def wikiz():
         except:
             flash('Sorry. I couldn\'t find the Result.Please Try Again')
             return render_template('wikipedia.html')
+#About Page
+@app.route('/About')
+def about():
+    return render_template('about.html')
 app.run(debug=True)
