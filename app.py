@@ -293,10 +293,9 @@ def weathers():
 #Weather_Recognition
 @app.route('/speechrecognize')
 def speech_recognizer():
-    namee=session['user']
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        speak("Hello "+namee+" which city's Weather Do you Want to Know ?")
+        speak("Hello "+glowname()+" which city's Weather Do you Want to Know ?")
         audio = r.listen(source)
         try:
             text = r.recognize_google(audio)
@@ -310,7 +309,7 @@ def speech_recognizer():
             icon = weather_data.json()['weather'][0]['icon']+".png"
             return render_template('weather.html',weather=a,temp=b,icon=icon)
         except:
-            speak("Sorry"+namee+" I couldn't recognize your voice. But Don't worry You can still ask me in manual mode ")
+            speak("Sorry"+glowname()+" I couldn't recognize your voice. But Don't worry You can still ask me in manual mode ")
             return render_template('weather.html')
 #get weather
 @app.route('/weather',methods=['POST'])
