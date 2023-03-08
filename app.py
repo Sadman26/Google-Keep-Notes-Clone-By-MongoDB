@@ -35,14 +35,6 @@ trashx=db['trash']
 reminderx=db['reminder']
 app = Flask(__name__,template_folder='temp')
 app.secret_key='secret'
-#speak
-def speak(text):
-    engine = pyttsx3.init()
-    engine.setProperty("rate", 188)
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice', voices[1].id)
-    engine.say(text)
-    engine.runAndWait()
 #Login
 @app.route('/',methods=['GET','POST'])
 def login():
@@ -101,13 +93,13 @@ def create():
             {'$push':{'notex':idx}}
         )
         return redirect(url_for('notes'))
-    return render_template('index.html')
+    return render_template('index.html',name=glowname())
 #Notes
 @app.route('/notes')
 def notes():
     xyz=session['user']
     persons=list(notex.find({"user":xyz}))
-    return render_template('index.html',result=persons)
+    return render_template('index.html',result=persons,name=glowname())
 #Edit
 @app.route('/edit/<id>',methods=['GET','POST'])
 def update(id):
@@ -140,7 +132,7 @@ def delete(id):
 def trash():
     xyz=session['user']
     persons=list(trashx.find({"user":xyz}))
-    return render_template('trash.html',result=persons)
+    return render_template('trash.html',result=persons,name=glowname())
 #Restore Trash
 @app.route('/restore/<id>',methods=['GET','POST'])
 def restore(id):
@@ -157,7 +149,7 @@ def delete_trash(id):
 def userinfo():
     xyz=session['user']
     persons=list(loginx.find({"email":xyz}))
-    return render_template('userinfo.html',result=persons)
+    return render_template('userinfo.html',result=persons,name=glowname())
 #Edit User Info page
 @app.route('/userEdit/<id>',methods=['POST'])
 def userEdit(id):
@@ -234,7 +226,7 @@ def remainder():
 def remainders():
     name=session['user']
     persons=list(reminderx.find({"user":name}))
-    return render_template('remainder.html',result=persons)
+    return render_template('remainder.html',result=persons,name=glowname())
 #Edit Task
 @app.route('/edit_remainder/<id>',methods=['GET','POST'])
 def edit_remainder(id):
@@ -282,7 +274,7 @@ def ytdown(link):
 #Youtube page
 @app.route('/youtube')
 def youtube():
-    return render_template('youtube.html')
+    return render_template('youtube.html',name=glowname())
 #Youtube Download Page
 @app.route('/youtube-download',methods=['POST'])
 def youtube_download():
@@ -297,7 +289,7 @@ def youtube_download():
 #Weather Page
 @app.route('/weathers')
 def weathers():
-    return render_template('weather.html')
+    return render_template('weather.html',name=glowname())
 #Weather_Recognition
 @app.route('/speechrecognize')
 def speech_recognizer():
@@ -349,7 +341,7 @@ def get_wiki_image(search_term):
 #wikipedia
 @app.route('/wiki')
 def wiki():
-    return render_template('wikipedia.html')
+    return render_template('wikipedia.html',name=glowname())
 #wikipedia search
 @app.route('/wikipedia',methods=['POST'])
 def wikiz():
@@ -404,7 +396,7 @@ def qrcodescan():
 def qrcodee():
     name=session['user']
     picx='E:\Google-Keep-Notes-Clone-By-MongoDB\ '+name+'.png'
-    return render_template('qrcode.html',pic=picx)
+    return render_template('qrcode.html',pic=picx,name=glowname())
 #Qrcode-Download
 @app.route('/qrcode-download',methods=['GET','POST'])
 def qrcodee1():
@@ -415,4 +407,19 @@ def qrcodee1():
         new='E:\ '+name+'.png'
         return redirect(url_for('qrcodee'))
     return render_template('qrcode.html',pic=new)
+#speak
+def speak(text):
+    engine = pyttsx3.init()
+    engine.setProperty("rate", 188)
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice', voices[1].id)
+    engine.say(text)
+    engine.runAndWait()
+#Glowname
+def glowname():
+    namee=session['user']
+    res=list(loginx.find({"email":namee}))
+    for i in res:
+        namek=i['name']
+    return namek
 app.run(debug=True)
