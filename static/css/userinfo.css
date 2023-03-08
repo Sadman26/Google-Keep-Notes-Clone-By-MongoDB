@@ -81,6 +81,7 @@
     font-size: 50px;
     font-family: 'Rampart One', cursive;
     color: #FFF;
+    margin-bottom: 5px;
   }
 .nameglow
 {
@@ -174,7 +175,7 @@ h1#today{
   position: absolute;
   top: 50%;
   left: 50%;
-  margin: 10px;
+  margin: 30px;
   transform: translate(-50%, -50%);
   width: max-content;
   background: white;
