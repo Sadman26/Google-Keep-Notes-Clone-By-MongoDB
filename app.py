@@ -400,7 +400,7 @@ def qrcodescan():
 #Qrcode
 @app.route('/qrcode')
 def qrcodee():
-    return render_template('qrcode.html')
+    return render_template('qrcode.html',name=glowname())
 #Qrcode-Download
 @app.route('/qrcode-download',methods=['GET','POST'])
 def qrcodee1():
