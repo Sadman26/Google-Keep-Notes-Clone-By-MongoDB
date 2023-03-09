@@ -258,7 +258,7 @@ def delete_remainder(id):
     return redirect(url_for('remainders'))
 @app.route('/password')
 def password():
-    return render_template('password.html')
+    return render_template('password.html',name=glowname())
 #passwords maker
 @app.route('/password_maker',methods=['POST'])
 def password_maker():
@@ -269,7 +269,7 @@ def password_maker():
         for i in range(length):
             password+=random.choice(string.ascii_letters+string.digits+string.punctuation)
             passw="Your Password: "+password
-        return render_template('password.html',password=passw)
+        return render_template('password.html',password=passw,name=glowname())
     return redirect(url_for('password'))
 #yt Download Function
 def ytdown(link):
