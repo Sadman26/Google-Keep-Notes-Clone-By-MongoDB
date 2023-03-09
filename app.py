@@ -185,7 +185,7 @@ def convert_time(time):
 def send_whatsapp(time,msg,name):
     name=session['user']
     account_sid = 'ACd78722a228d0c57a16011c23a0900cdb'
-    auth_token = '252e8647218849b525f85d4d8219a3b6'
+    auth_token = 'bf707e70efb54f47d23e19682135957e'
     num=""
     namee=""
     persons=list(loginx.find({"email":name}))
