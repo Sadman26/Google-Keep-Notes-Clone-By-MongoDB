@@ -152,19 +152,23 @@ def delete_trash(id):
 def userinfo():
     xyz=session['user']
     persons=list(loginx.find({"email":xyz}))
-    return render_template('userinfo.html',result=persons,name=glowname())
+    return render_template('useredit.html',result=persons,name=glowname())
 #Edit User Info page
-@app.route('/userEdit/<id>',methods=['POST'])
-def userEdit(id):
+@app.route('/userEditz',methods=['POST'])
+def userEdit():
     if request.method=='POST':
         namex=request.form['name']
         phone=request.form['phone']
+        password=request.form['password']
         z={
             "name":namex,
-            "phone":phone
+            "phone":phone,
+            "password":password
         }
         name=session['user']
-        loginx.update_one({'_id':ObjectId(id)},{'$set':z})
+        res=list(loginx.find({"email":name}))
+        for i in res:
+            loginx.update_one({'_id':ObjectId(i['_id'])},{'$set':z})
         return redirect(url_for('userinfo'))
     return render_template('userinfo.html')
 #plyer notification 

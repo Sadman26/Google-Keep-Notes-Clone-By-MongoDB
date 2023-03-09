@@ -33,22 +33,28 @@
     <h1>
       <ion-icon name="person-circle-outline"></ion-icon><br> User Info 
      </h1>
+     <br>
+    <br>
+    <br>
+    <br>
+    <br>
   </center>
   <br>
-  {%block content%}
+  {%for i in result%}
   <div class="userinfo">
-    <form action="/userEdit/{{result._id}}"  method="post">
-    <h1><i class="fa-solid fa-user" ></i>   <input type="text" name="name" id="name" value="{{result.name}}"></h1>
+    
+    <form action="/userEditz"  method="post">
+    <h1><i class="fa-solid fa-user" ></i>   <input type="text" name="name" id="name" value="{{i.name}}"></h1>
     <h2>
-      <ion-icon name="call-outline" id="phone"></ion-icon><input type="text" name="phone" id="phone" value="{{result.phone}}">
+      <ion-icon name="call-outline" id="phone"></ion-icon><input type="text" name="phone" id="phone" value="{{i.phone}}">
     </h2>
     <h2>
-      <ion-icon name="key-outline" id="pass"></ion-icon>Pass: {{result.password}}
+      <ion-icon name="key-outline" id="pass"></ion-icon>Pass: <input type="text" name="password" id="password" value="{{i.password}}">
     </h2>
-    <h2><ion-icon name="at-outline" id="email"></ion-icon>Email: {{result.email}}</h2>
+    <h2><ion-icon name="at-outline" id="email"></ion-icon>Email: {{i.email}}</h2>
     <br>
-    <button class="btn btn-success" type="submit">SAVE</button>
-    {% endblock %}
+    <button class="btn btn-success" type="submit">UPDATE</button>
+    {% endfor %}
 </form>
   </div>
   <div id="wrapper">
