@@ -33,6 +33,7 @@ loginx=db['login']
 notex=db['note']
 trashx=db['trash']
 reminderx=db['reminder']
+qrcodex=db['qrcode']
 app = Flask(__name__,template_folder='temp')
 app.secret_key='secret'
 #Login
@@ -64,9 +65,11 @@ def index():
         try:
             zx={'name':namex,'phone':phone,'email':email,'password':password}
             loginx.insert_one(zx)
+            res=list(loginx.find({"email":name}))
+            test(res,glowname())
             return redirect(url_for('login'))
         except:
-            flash('User Already Exists')
+            flash('ERROR ON SIGNUP')
             speak('User Already Exists')
             return render_template('signup.html')
     return render_template('signup.html')
@@ -370,7 +373,7 @@ def test(text,name):
         newData=email+" "+password
         img =qrcode.make(newData)
         type(img)
-        img.save(name+'.png')
+        img.save('E:/Google-Keep-Notes-Clone-By-MongoDB/static/qr/'+name+'.png')
 #Scan Qrcode
 @app.route('/qrcodescan')
 def qrcodescan():
@@ -393,19 +396,16 @@ def qrcodescan():
 #Qrcode
 @app.route('/qrcode')
 def qrcodee():
-    name=session['user']
-    picx='E:\Google-Keep-Notes-Clone-By-MongoDB\ '+name+'.png'
-    return render_template('qrcode.html',pic=picx,name=glowname())
+    return render_template('qrcode.html')
 #Qrcode-Download
 @app.route('/qrcode-download',methods=['GET','POST'])
 def qrcodee1():
     if request.method=='POST':
         name=session['user']
         res=list(loginx.find({"email":name}))
-        test(res,name)
-        new='E:\ '+name+'.png'
+        test(res,glowname())
         return redirect(url_for('qrcodee'))
-    return render_template('qrcode.html',pic=new)
+    return render_template('qrcode.html')
 #speak
 def speak(text):
     engine = pyttsx3.init()
