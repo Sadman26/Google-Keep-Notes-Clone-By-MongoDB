@@ -377,6 +377,7 @@ def test(text,name):
         newData=email+" "+password
         img =qrcode.make(newData)
         type(img)
+        speak(glowname()+' Your QRCODE is ready')
         img.save('E:/Google-Keep-Notes-Clone-By-MongoDB/static/qr/'+name+'.png')
 #Scan Qrcode
 @app.route('/qrcodescan')
